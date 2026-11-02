@@ -1,0 +1,40 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Retour TikTok · Pas Mytho Stats</title><style>body{margin:0;background:#F4ECDC;color:#1E2A3A;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+main{max-width:720px;margin:0 auto;padding:48px 20px 64px}
+h1{font-size:28px;line-height:1.2;margin:0 0 4px}h2{font-size:18px;margin:28px 0 6px;color:#1F5B3C}
+.meta{color:#5b6472;font-size:14px;margin:0 0 24px}.lang{border-top:1px solid #d8ccb4;margin-top:40px;padding-top:24px}
+a{color:#1F5B3C}ul{padding-left:20px}footer{margin-top:40px;font-size:13px;color:#5b6472}
+label{display:block;font-weight:600;margin:18px 0 6px}
+input[type=text]{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #c9bb9f;border-radius:8px;background:#fffaf0;color:#1E2A3A;font:15px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}
+button{margin-top:14px;padding:10px 18px;border:0;border-radius:8px;background:#1F5B3C;color:#F4ECDC;font:600 15px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+.box{border:1px solid #d8ccb4;border-radius:10px;background:#fbf5e8;padding:16px 18px;margin:18px 0}
+.err{color:#9b2c1d;font-weight:600}.ok{color:#1F5B3C;font-weight:600}
+ol li{margin:6px 0}
+</style></head><body><main>
+<h1>Retour de TikTok</h1><p class="meta">Pas Mytho Stats · réservé au créateur de @pasmytho</p>
+<div id="out"><p>Lecture de la réponse de TikTok…</p></div>
+<div class="box"><b>Étape suivante</b><ol>
+<li>Copie le code ci-dessus.</li>
+<li>Ouvre <a href="https://github.com/zpeloz/pasmytho-releve/actions/workflows/connexion.yml" target="_blank" rel="noopener">l'action « Connexion TikTok »</a> du dépôt privé, clique sur « Run workflow », colle le code et lance.</li>
+<li>L'action échange le code contre des jetons, les chiffre dans le dépôt et fait un premier relevé. Fais-le dans les minutes qui suivent : le code expire vite.</li></ol></div>
+<p class="meta">Cette page n'envoie le code nulle part : il reste dans ton navigateur.</p>
+<footer>Pas Mytho · @pasmytho sur TikTok · <a href="./">Accueil</a> · <a href="cgu.html">Conditions d'utilisation</a> · <a href="confidentialite.html">Confidentialité</a></footer></main>
+<script>
+(function(){
+  var q = new URLSearchParams(location.search), out = document.getElementById('out');
+  function el(t, c, txt){ var e = document.createElement(t); if (c) e.className = c; if (txt) e.textContent = txt; return e; }
+  out.textContent = '';
+  var err = q.get('error'), code = q.get('code'), state = q.get('state'), saved = null;
+  try { saved = sessionStorage.getItem('pm_state'); } catch (e) {}
+  if (err){ out.append(el('p', 'err', 'TikTok a refusé l’autorisation : ' + err + (q.get('error_description') ? ' (' + q.get('error_description') + ')' : '') + '.')); return; }
+  if (!code){ out.append(el('p', 'err', 'Aucun code dans l’adresse. Recommence depuis la page Connexion.')); return; }
+  if (saved && state && saved !== state) out.append(el('p', 'err', 'Attention : ce retour ne correspond pas à la demande faite depuis ce navigateur. N’utilise ce code que si c’est bien toi qui viens d’autoriser.'));
+  else out.append(el('p', 'ok', 'Autorisation reçue.'));
+  var lab = el('label', '', 'Code d’autorisation'); lab.htmlFor = 'code';
+  var i = el('input'); i.type = 'text'; i.id = 'code'; i.readOnly = true; i.value = code;
+  var b = el('button', '', 'Copier le code'); b.type = 'button';
+  b.addEventListener('click', function(){ i.select(); var done = function(){ b.textContent = 'Code copié'; }; if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function(){ document.execCommand('copy'); done(); }); else { document.execCommand('copy'); done(); } });
+  out.append(lab, i, b);
+  try { sessionStorage.removeItem('pm_state'); } catch (e) {}
+})();
+</script></body></html>
